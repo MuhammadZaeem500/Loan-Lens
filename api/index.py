@@ -3,21 +3,8 @@ from pydantic import BaseModel
 import pandas as pd
 import joblib
 from pathlib import Path
-from fastapi.middleware.cors import CORSMiddleware
 
 app = FastAPI(title="Loan Lens API")
-
-app.add_middleware(
-    CORSMiddleware,
-    allow_origins=["http://localhost:5500", "http://127.0.0.1:5500"],
-    allow_credentials=True,
-    allow_methods=["*"],
-    allow_headers=["*"],
-)
-
-# --------------------------------------------------
-# Load trained model and scaler
-# --------------------------------------------------
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -26,11 +13,6 @@ SCALER_PATH = BASE_DIR / "models" / "scaler.pkl"
 
 model = joblib.load(MODEL_PATH)
 scaler = joblib.load(SCALER_PATH)
-
-
-# --------------------------------------------------
-# Features used during model training
-# --------------------------------------------------
 
 FEATURES = [
     "no_of_dependents",
@@ -47,10 +29,6 @@ FEATURES = [
 ]
 
 
-# --------------------------------------------------
-# Input format
-# --------------------------------------------------
-
 class LoanApplication(BaseModel):
     no_of_dependents: int
     education: str
@@ -65,10 +43,6 @@ class LoanApplication(BaseModel):
     bank_asset_value: float
 
 
-# --------------------------------------------------
-# API health check
-# --------------------------------------------------
-
 @app.get("/api")
 def home():
     return {
@@ -77,23 +51,12 @@ def home():
     }
 
 
-# --------------------------------------------------
-# Prediction API
-# --------------------------------------------------
-
 @app.post("/api/predict")
 def predict_loan(application: LoanApplication):
 
-    # Convert categorical values
-    education_value = (
-        1 if application.education == "Graduate" else 0
-    )
+    education_value = 1 if application.education == "Graduate" else 0
+    self_employed_value = 1 if application.self_employed == "Yes" else 0
 
-    self_employed_value = (
-        1 if application.self_employed == "Yes" else 0
-    )
-
-    # Create dataframe
     applicant = pd.DataFrame([{
         "no_of_dependents": application.no_of_dependents,
         "education": education_value,
@@ -108,16 +71,11 @@ def predict_loan(application: LoanApplication):
         "bank_asset_value": application.bank_asset_value,
     }])
 
-    # Ensure correct feature order
     applicant = applicant[FEATURES]
 
-    # Scale applicant data
     applicant_scaled = scaler.transform(applicant)
 
-    # Prediction
     prediction = model.predict(applicant_scaled)[0]
-
-    # Probability
     probability = model.predict_proba(applicant_scaled)[0][1]
 
     status = "Approved" if prediction == 1 else "Rejected"

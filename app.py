@@ -1,7 +1,7 @@
 import gradio as gr
 import pandas as pd
 import joblib
-
+from config import FEATURES
 
 # ============================================================
 # LOAD TRAINED MODEL AND SCALER
@@ -9,25 +9,6 @@ import joblib
 
 model = joblib.load("models/logistic_regression_model.pkl")
 scaler = joblib.load("models/scaler.pkl")
-
-
-# ============================================================
-# FEATURES USED DURING MODEL TRAINING
-# ============================================================
-
-FEATURES = [
-    "no_of_dependents",
-    "education",
-    "self_employed",
-    "income_annum",
-    "loan_amount",
-    "loan_term",
-    "cibil_score",
-    "residential_assets_value",
-    "commercial_assets_value",
-    "luxury_assets_value",
-    "bank_asset_value"
-]
 
 
 # ============================================================

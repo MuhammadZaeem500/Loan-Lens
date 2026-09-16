@@ -1,0 +1,564 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Loan Lens | Loan Approval Prediction</title>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #0f0f0f;
+            color: #ffffff;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: auto;
+            padding: 50px 25px;
+        }
+
+        .header {
+            margin-bottom: 35px;
+        }
+
+        .header h1 {
+            margin-bottom: 10px;
+            font-size: 32px;
+        }
+
+        .header p {
+            color: #b5b5b5;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 25px;
+        }
+
+        .card {
+            background: #1c1c1f;
+            border: 1px solid #333;
+            border-radius: 10px;
+            padding: 25px;
+        }
+
+        .card h2 {
+            margin-top: 0;
+            margin-bottom: 25px;
+            font-size: 20px;
+        }
+
+        .field {
+            margin-bottom: 18px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        input,
+        select {
+            width: 100%;
+            padding: 13px;
+            background: #262629;
+            color: white;
+            border: 1px solid #3b3b3f;
+            border-radius: 6px;
+            font-size: 14px;
+        }
+
+        input:focus,
+        select:focus {
+            outline: none;
+            border-color: #f15a0a;
+        }
+
+        .predict-button {
+            width: 100%;
+            margin-top: 25px;
+            padding: 15px;
+            border: none;
+            border-radius: 6px;
+            background: #f15a0a;
+            color: white;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .predict-button:hover {
+            background: #d94d00;
+        }
+
+        .result {
+            margin-top: 25px;
+            background: #1c1c1f;
+            border: 1px solid #333;
+            border-radius: 10px;
+            padding: 25px;
+        }
+
+        .result-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .result-box {
+            background: #262629;
+            padding: 18px;
+            border-radius: 6px;
+        }
+
+        .result-label {
+            color: #aaa;
+            font-size: 13px;
+            margin-bottom: 8px;
+        }
+
+        .result-value {
+            font-size: 20px;
+            font-weight: bold;
+        }
+
+        .approved {
+            color: #45d483;
+        }
+
+        .rejected {
+            color: #ff6262;
+        }
+
+        .footer {
+            margin-top: 40px;
+            text-align: center;
+            color: #777;
+            font-size: 13px;
+        }
+
+        @media (max-width: 800px) {
+
+            .form-grid,
+            .result-grid {
+                grid-template-columns: 1fr;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+<div class="container">
+
+    <div class="header">
+
+        <h1>Loan Lens</h1>
+
+        <p>
+            Loan Approval Prediction System
+        </p>
+
+        <p>
+            Enter the applicant's information below to estimate
+            the probability of loan approval.
+        </p>
+
+    </div>
+
+
+    <form id="loanForm">
+
+        <div class="form-grid">
+
+
+            <!-- Applicant Information -->
+
+            <div class="card">
+
+                <h2>Applicant Information</h2>
+
+
+                <div class="field">
+
+                    <label>Number of Dependents</label>
+
+                    <input
+                        id="dependents"
+                        type="number"
+                        min="0"
+                        required
+                    >
+
+                </div>
+
+
+                <div class="field">
+
+                    <label>Education</label>
+
+                    <select id="education">
+
+                        <option value="Graduate">
+                            Graduate
+                        </option>
+
+                        <option value="Not Graduate">
+                            Not Graduate
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <div class="field">
+
+                    <label>Self Employed</label>
+
+                    <select id="selfEmployed">
+
+                        <option value="No">No</option>
+                        <option value="Yes">Yes</option>
+
+                    </select>
+
+                </div>
+
+
+                <div class="field">
+
+                    <label>Annual Income</label>
+
+                    <input
+                        id="income"
+                        type="number"
+                        min="0"
+                        required
+                    >
+
+                </div>
+
+
+                <div class="field">
+
+                    <label>Loan Amount</label>
+
+                    <input
+                        id="loanAmount"
+                        type="number"
+                        min="0"
+                        required
+                    >
+
+                </div>
+
+
+                <div class="field">
+
+                    <label>Loan Term (Years)</label>
+
+                    <input
+                        id="loanTerm"
+                        type="number"
+                        min="0"
+                        required
+                    >
+
+                </div>
+
+            </div>
+
+
+            <!-- Financial Information -->
+
+            <div class="card">
+
+                <h2>Credit & Asset Information</h2>
+
+
+                <div class="field">
+
+                    <label>CIBIL Score</label>
+
+                    <input
+                        id="cibil"
+                        type="number"
+                        min="300"
+                        max="900"
+                        required
+                    >
+
+                </div>
+
+
+                <div class="field">
+
+                    <label>Residential Assets Value</label>
+
+                    <input
+                        id="residential"
+                        type="number"
+                        min="0"
+                        required
+                    >
+
+                </div>
+
+
+                <div class="field">
+
+                    <label>Commercial Assets Value</label>
+
+                    <input
+                        id="commercial"
+                        type="number"
+                        min="0"
+                        required
+                    >
+
+                </div>
+
+
+                <div class="field">
+
+                    <label>Luxury Assets Value</label>
+
+                    <input
+                        id="luxury"
+                        type="number"
+                        min="0"
+                        required
+                    >
+
+                </div>
+
+
+                <div class="field">
+
+                    <label>Bank Assets Value</label>
+
+                    <input
+                        id="bank"
+                        type="number"
+                        min="0"
+                        required
+                    >
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <button
+            class="predict-button"
+            type="submit"
+        >
+            Predict Loan Approval
+        </button>
+
+    </form>
+
+
+    <!-- Prediction Result -->
+
+    <div class="result">
+
+        <h2>Prediction Result</h2>
+
+        <div class="result-grid">
+
+            <div class="result-box">
+
+                <div class="result-label">
+                    Loan Prediction
+                </div>
+
+                <div
+                    id="prediction"
+                    class="result-value"
+                >
+                    —
+                </div>
+
+            </div>
+
+
+            <div class="result-box">
+
+                <div class="result-label">
+                    Approval Probability
+                </div>
+
+                <div
+                    id="probability"
+                    class="result-value"
+                >
+                    —
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <div class="footer">
+
+        Loan Lens — Machine Learning Loan Approval Prediction
+
+    </div>
+
+</div>
+
+
+<script>
+
+const form = document.getElementById("loanForm");
+
+form.addEventListener("submit", async function(event) {
+
+    event.preventDefault();
+
+
+    const predictionElement =
+        document.getElementById("prediction");
+
+    const probabilityElement =
+        document.getElementById("probability");
+
+
+    predictionElement.textContent = "Processing...";
+
+    probabilityElement.textContent = "Processing...";
+
+
+    const applicantData = {
+
+        no_of_dependents:
+            Number(document.getElementById("dependents").value),
+
+        education:
+            document.getElementById("education").value,
+
+        self_employed:
+            document.getElementById("selfEmployed").value,
+
+        income_annum:
+            Number(document.getElementById("income").value),
+
+        loan_amount:
+            Number(document.getElementById("loanAmount").value),
+
+        loan_term:
+            Number(document.getElementById("loanTerm").value),
+
+        cibil_score:
+            Number(document.getElementById("cibil").value),
+
+        residential_assets_value:
+            Number(document.getElementById("residential").value),
+
+        commercial_assets_value:
+            Number(document.getElementById("commercial").value),
+
+        luxury_assets_value:
+            Number(document.getElementById("luxury").value),
+
+        bank_asset_value:
+            Number(document.getElementById("bank").value)
+
+    };
+
+
+    try {
+
+        const response = await fetch("/api/predict", {
+
+            method: "POST",
+
+            headers: {
+                "Content-Type": "application/json"
+            },
+
+            body: JSON.stringify(applicantData)
+
+        });
+
+
+        if (!response.ok) {
+            throw new Error("Prediction request failed.");
+        }
+
+
+        const result = await response.json();
+
+
+        predictionElement.textContent =
+            result.prediction;
+
+
+        probabilityElement.textContent =
+            result.approval_probability + "%";
+
+
+        predictionElement.classList.remove(
+            "approved",
+            "rejected"
+        );
+
+
+        if (result.prediction === "Approved") {
+
+            predictionElement.classList.add("approved");
+
+        } else {
+
+            predictionElement.classList.add("rejected");
+
+        }
+
+
+    } catch (error) {
+
+        predictionElement.textContent =
+            "Prediction failed";
+
+        probabilityElement.textContent =
+            "Please try again";
+
+        console.error(error);
+
+    }
+
+});
+
+</script>
+
+
+</body>
+
+</html>

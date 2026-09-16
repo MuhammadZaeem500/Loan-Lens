@@ -4,7 +4,6 @@ from pydantic import BaseModel
 
 app = FastAPI()
 
-# Configure CORS to allow requests from your Vercel frontend and local environments
 origins = [
     "https://loan-lens-sage.vercel.app",
     "http://localhost:3000",

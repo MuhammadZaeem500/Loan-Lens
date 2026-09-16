@@ -1,4 +1,4 @@
-# Loan Lens — Loan Approval Prediction
+<!-- # Loan Lens — Loan Approval Prediction
 
 Loan Lens is an end-to-end Machine Learning project that predicts whether
 a loan application is likely to be approved or rejected.
@@ -272,4 +272,4 @@ Deployment link will be added here.
 Loan Lens was developed for educational and portfolio purposes.
 
 The predictions produced by this application should not be used to make
-real financial or lending decisions.
+real financial or lending decisions. -->

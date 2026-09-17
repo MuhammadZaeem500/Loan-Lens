@@ -265,8 +265,7 @@ Future versions could include:
 
 ## Live Demo
 
-Front End - https://loan-lens-sage.vercel.app/
-Back End - https://loan-lens-0jbw.onrender.com/api
+https://loan-lens-sage.vercel.app/
 
 ## Disclaimer
 

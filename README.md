@@ -1,4 +1,4 @@
-<!-- # Loan Lens — Loan Approval Prediction
+# Loan Lens — Loan Approval Prediction
 
 Loan Lens is an end-to-end Machine Learning project that predicts whether
 a loan application is likely to be approved or rejected.
@@ -136,11 +136,11 @@ The trained model was evaluated using:
 
 | Metric | Score |
 | --- | ---: |
-| Accuracy | ADD RESULT |
-| Precision | ADD RESULT |
-| Recall | ADD RESULT |
-| F1 Score | ADD RESULT |
-| ROC-AUC | ADD RESULT |
+| Accuracy | 92.62% |
+| Precision | 0.89 |
+| Recall | 0.92 |
+| F1 Score | 0.90 |
+| ROC-AUC | 0.93 |
 
 ## Loan Lens Application
 
@@ -209,7 +209,7 @@ It returns:
 
 Clone the repository:
 
-    git clone <your-repository-url>
+    git clone https://github.com/MuhammadZaeem500/Loan-Lens.git
 
 Move into the project:
 
@@ -265,11 +265,12 @@ Future versions could include:
 
 ## Live Demo
 
-Deployment link will be added here.
+Front End - https://loan-lens-sage.vercel.app/
+Back End - https://loan-lens-0jbw.onrender.com/api
 
 ## Disclaimer
 
 Loan Lens was developed for educational and portfolio purposes.
 
 The predictions produced by this application should not be used to make
-real financial or lending decisions. -->
+real financial or lending decisions.

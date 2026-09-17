@@ -4,7 +4,6 @@ from pydantic import BaseModel
 
 app = FastAPI()
 
-# Configure CORS to allow requests from your Vercel frontend and local environments
 origins = [
     "https://loan-lens-sage.vercel.app",
     "http://localhost:3000",
@@ -38,16 +37,13 @@ class LoanApplication(BaseModel):
 def predict_loan(data: LoanApplication):
     print("Received prediction request:", data.dict())
 
-    # 1. Prediction logic based on CIBIL score
     prediction = "Approved" if data.cibil_score >= 650 else "Rejected"
 
-    # 2. Dynamic probability calculation (or use your model's predict_proba)
     approved_pct = round(min(max((data.cibil_score - 300) / 600 * 100, 5.0), 95.0), 2)
     rejected_pct = round(100.0 - approved_pct, 2)
 
-    # 3. Return response with the 'probabilities' key included
     return {
         "status": "success",
         "prediction": prediction,
-        "probabilities": f"Approved Probability: {approved_pct}%\nRejected Probability: {rejected_pct}%"
+        "probabilities": f"Approval Probability: {approved_pct}%\nRejection Probability: {rejected_pct}%"
     }
